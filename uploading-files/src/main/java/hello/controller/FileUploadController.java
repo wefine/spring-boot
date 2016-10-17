@@ -1,4 +1,4 @@
-package hello;
+package hello.controller;
 
 import hello.storage.StorageFileNotFoundException;
 import hello.storage.StorageService;
