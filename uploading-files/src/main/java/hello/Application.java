@@ -18,6 +18,7 @@ public class Application {
 
     @Bean
     CommandLineRunner init(StorageService storageService) {
+        // 在每次启动时都删除原来的文件，就当仅用于测试场景；生产环境就当入库。
         return (args) -> {
             storageService.deleteAll();
             storageService.init();
