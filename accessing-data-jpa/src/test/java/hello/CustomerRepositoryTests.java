@@ -3,6 +3,7 @@ package hello;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.junit.Test;
@@ -23,7 +24,7 @@ public class CustomerRepositoryTests {
 
     @Test
     public void testFindByLastName() {
-        Customer customer = new Customer("first", "last");
+        Customer customer = new Customer("first", "last", LocalDateTime.now());
         entityManager.persist(customer);
 
         List<Customer> findByLastName = customers.findByLastName(customer.getLastName());
