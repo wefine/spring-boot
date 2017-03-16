@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @EntityScan(
         basePackageClasses = { Application.class, Jsr310JpaConverters.class }
@@ -50,6 +51,16 @@ public class Application {
                 log.info(bauer.toString());
             }
             log.info("");
+
+            // fetch customers by last name
+            log.info("Customer found with Between :");
+            log.info("--------------------------------------------");
+            LocalDateTime start = now.minusDays(10);
+            LocalDateTime end = now.minusDays(1);
+            List<Customer> customers =  repository.findByBirthdayBetween(start, end);
+            for (Customer customer : customers) {
+                log.info(customer.toString());
+            }
         };
     }
 
