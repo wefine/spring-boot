@@ -2,7 +2,9 @@ package ria;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 import org.javatuples.Pair;
 import redis.clients.jedis.*;
 
@@ -440,29 +442,38 @@ public class Chapter05 {
         FileReader reader = null;
         try {
             reader = new FileReader(file);
-            CSVParser parser = new CSVParser(reader);
-            int count = 0;
-            String[] line = null;
-            while ((line = parser.getLine()) != null) {
-                String startIp = line.length > 1 ? line[0] : "";
-                if (startIp.toLowerCase().indexOf('i') != -1) {
-                    continue;
+            CSVParser parser = new CSVParser(reader, CSVFormat.DEFAULT);
+            try {
+                for (final CSVRecord record : parser) {
+                    final String string = record.get("SomeColumn");
                 }
-                int score = 0;
-                if (startIp.indexOf('.') != -1) {
-                    score = ipToScore(startIp);
-                } else {
-                    try {
-                        score = Integer.parseInt(startIp, 10);
-                    } catch (NumberFormatException nfe) {
-                        continue;
-                    }
-                }
-
-                String cityId = line[2] + '_' + count;
-                conn.zadd("ip2cityid:", score, cityId);
-                count++;
+            } finally {
+                parser.close();
+                reader.close();
             }
+
+//            int count = 0;
+//            String[] line = null;
+//            while ((line = parser.) != null) {
+//                String startIp = line.length > 1 ? line[0] : "";
+//                if (startIp.toLowerCase().indexOf('i') != -1) {
+//                    continue;
+//                }
+//                int score = 0;
+//                if (startIp.indexOf('.') != -1) {
+//                    score = ipToScore(startIp);
+//                } else {
+//                    try {
+//                        score = Integer.parseInt(startIp, 10);
+//                    } catch (NumberFormatException nfe) {
+//                        continue;
+//                    }
+//                }
+//
+//                String cityId = line[2] + '_' + count;
+//                conn.zadd("ip2cityid:", score, cityId);
+//                count++;
+//            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
@@ -479,19 +490,19 @@ public class Chapter05 {
         FileReader reader = null;
         try {
             reader = new FileReader(file);
-            CSVParser parser = new CSVParser(reader);
-            String[] line = null;
-            while ((line = parser.getLine()) != null) {
-                if (line.length < 4 || !Character.isDigit(line[0].charAt(0))) {
-                    continue;
-                }
-                String cityId = line[0];
-                String country = line[1];
-                String region = line[2];
-                String city = line[3];
-                String json = gson.toJson(new String[]{city, region, country});
-                conn.hset("cityid2city:", cityId, json);
-            }
+//            CSVParser parser = new CSVParser(reader);
+//            String[] line = null;
+//            while ((line = parser.getLine()) != null) {
+//                if (line.length < 4 || !Character.isDigit(line[0].charAt(0))) {
+//                    continue;
+//                }
+//                String cityId = line[0];
+//                String country = line[1];
+//                String region = line[2];
+//                String city = line[3];
+//                String json = gson.toJson(new String[]{city, region, country});
+//                conn.hset("cityid2city:", cityId, json);
+//            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
