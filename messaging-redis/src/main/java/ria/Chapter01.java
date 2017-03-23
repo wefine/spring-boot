@@ -10,7 +10,7 @@ public class Chapter01 {
     private static final int VOTE_SCORE = 432;
     private static final int ARTICLES_PER_PAGE = 25;
 
-    public static final void main(String[] args) {
+    public static void main(String[] args) {
         new Chapter01().run();
     }
 
